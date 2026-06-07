@@ -9,6 +9,16 @@ import com.project.state.GameState;
 import com.project.state.PlayerTurnState;
 import com.project.state.ResolvedState;
 
+
+/** main class that handles and manages the game logic 
+  * handles game states and player/dealer interactions. 
+  * also contains a simple CLI for testing purposes, but this will be replaced with a UI in the future.
+  * 
+  * 
+  * @author Nick Toth-Ratazzi
+**/
+
+
 public class Game 
 {
     private Player player;

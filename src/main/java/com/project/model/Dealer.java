@@ -1,5 +1,13 @@
 package com.project.model;
 
+
+/** represents the dealer in the game
+ *  has a hand and a hole card, and methods for hitting, flipping the hole card, and playing their turn according to standard blackjack rules.
+ *  
+ * @author Nick Toth-Ratazzi
+**/
+
+
 public class Dealer 
 {
     private Hand hand;

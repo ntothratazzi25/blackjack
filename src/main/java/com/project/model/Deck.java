@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/** represents a standard deck of 52 playing cards
+ *  has methods for shuffling and dealing cards.
+ *  
+ * @author Nick Toth-Ratazzi
+ **/
+
+
 public class Deck 
 {
     private List<Card> cards;

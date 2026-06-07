@@ -1,5 +1,13 @@
 package com.project.model;
 
+
+/** represents a bet placed by the player
+ *  has an amount and status (win, lose, push)
+ *  
+ * @author Nick Toth-Ratazzi
+**/
+
+
 public class Bet 
 {
     private double amount;

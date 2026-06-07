@@ -1,5 +1,13 @@
 package com.project.model;
 
+
+/** represents a playing card
+ *  has a suit, rank, and value
+ *  
+ * @author Nick Toth-Ratazzi
+**/
+
+
 public class Card 
 {
     private String suit; 

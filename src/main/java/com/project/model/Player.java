@@ -1,5 +1,13 @@
 package com.project.model;
 
+
+/** represents the player in the game
+ *  has a balance, hand, and bet, and methods for hitting, doubling down, placing bets, and adding to balance.
+ *  
+ * @author Nick Toth-Ratazzi
+**/
+
+
 public class Player 
 {
     private double balance;

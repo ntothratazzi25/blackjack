@@ -3,6 +3,14 @@ package com.project.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/** represents a player and dealer's hand in the game
+ *  has a list of cards and methods for adding cards, calculating total value, and checking for bust or blackjack.
+ *  
+ * @author Nick Toth-Ratazzi
+**/
+
+
 public class Hand 
 {
     private int totalValue;
