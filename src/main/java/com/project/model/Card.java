@@ -10,14 +10,14 @@ public class Card
     {
         this.suit = suit;
         this.rank = rank;
-        this.value = switch(rank)
+        this.value = switch(rank) // handle face card values
         {
-            case "J":
-            case "Q":
-            case "K":
-                yield 10;
-            case "A":
-                yield 11;
+            case "J": // Jack
+            case "Q": // Queen
+            case "K": // King
+                yield 10; // all = value of 10
+            case "A": // Ace
+                 yield 11; // value of 11   *** NOTE: Need to make a case for handling soft ace (1/11) ***
             default:
                 yield Integer.parseInt(rank);
         };

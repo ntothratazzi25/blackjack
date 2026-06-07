@@ -16,7 +16,7 @@ public class Bet
         return amount;
     }
 
-    public String setStatus(String status)
+    public String setStatus(String status) // setter for bet status 
     {
         this.status = status;
         return status;

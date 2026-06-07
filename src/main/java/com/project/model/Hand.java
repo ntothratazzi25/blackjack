@@ -31,12 +31,12 @@ public class Hand
         return totalValue;
     }
 
-    public boolean isBust()
+    public boolean isBust() // is bust if totalValue is greater than 21 
     {
         return totalValue > 21;
     }
 
-    public boolean isBlackjack()
+    public boolean isBlackjack() // is blackjack if the first 2 cards add up to 21 
     {
         return currentHand.size() == 2 && totalValue == 21;
     }
