@@ -28,6 +28,11 @@ public class Hand
         totalValue = calculateTotal();
     }
 
+    public Card getCard(int index)
+    {
+        return currentHand.get(index);
+    }
+
     public int calculateTotal() // calculates the current hand total
     {
         totalValue = 0;

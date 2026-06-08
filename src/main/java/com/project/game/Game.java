@@ -158,39 +158,58 @@ public class Game
 
     public static void main(String[] args) // for now, cli game
     {
-        Scanner scanner = new Scanner(System.in);  
-        Game game = new Game(1000.0); 
-        game.startGame();
-        System.out.println("Balance: " + game.getPlayer().getBalance());  // balance 
-        System.out.print("Enter bet amount: ");
-        double betAmount = scanner.nextDouble();
-        scanner.nextLine();
-        game.getPlayer().placeBet(betAmount);
-
-        System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // deal player hand 
-        System.out.println("Dealer showing: " + game.getDealer().getHand().calculateTotal()); // dealer hand (with hole card) 
-
-        while (game.getStatus().equals("active"))  
-        {
-            System.out.print("Enter action (hit/stand/double): "); // player input
-            String action = scanner.nextLine();
-
-            switch (action) // switch function handling input
-            {
-                case "hit" -> game.handleHit(); 
-                case "stand" -> game.handleStand();
-                case "double" -> game.handleDoubleDown();
-                default -> System.out.println("Invalid action");
-            }
-
-            System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // print total after player either stands or busts 
-            System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
-
-           
-        } 
+        Scanner scanner = new Scanner(System.in);
         
-        System.out.println("Outcome: " + game.getOutcome());  // outcome 
-        System.out.println("Balance: " + game.getPlayer().getBalance()); // new balance
+        while (true) 
+        { 
+            Game game = new Game(1000.00); 
+            game.startGame();
+            System.out.println("Balance: $" + game.getPlayer().getBalance());  // balance 
+            System.out.print("Enter bet amount: ");
+            double betAmount = scanner.nextDouble();
+            scanner.nextLine();
+            game.getPlayer().placeBet(betAmount);
+
+            System.out.println("\nPlayer's first card: " + game.getPlayer().getHand().getCard(0));
+            System.out.println("Dealer's first card: " + game.getDealer().getHand().getCard(0));
+            System.out.println("Player's second card: " + game.getPlayer().getHand().getCard(1));
+            System.out.println("Dealer's Hole Card is dealt.\n");
+            System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // deal player hand 
+            System.out.println("Dealer showing: " + game.getDealer().getHand().getCard(0).getValue()); // dealer hand (with hole card) 
+
+            while (game.getStatus().equals("active"))  
+            {
+                System.out.print("Enter action (hit/stand/double): "); // player input
+                String action = scanner.nextLine();
+
+                switch (action) // switch function handling input
+                {
+                    case "hit" -> game.handleHit(); 
+                    case "stand" -> game.handleStand();
+                    case "double" -> game.handleDoubleDown();
+                    default -> System.out.println("Invalid action");
+                }
+
+                System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // print total after player either stands or busts 
+                System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
+
+            
+            } 
+            
+            System.out.println("Outcome: " + game.getOutcome());  // outcome 
+            System.out.println("Balance: " + game.getPlayer().getBalance()); // new balance
+
+            System.out.print("Play again? (y/n) ");
+            if (scanner.nextLine().equals("y"))
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
     }
 }
+
 
