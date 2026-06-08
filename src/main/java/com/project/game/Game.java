@@ -2,6 +2,7 @@ package com.project.game;
 
 import java.util.Scanner;
 
+import com.project.model.Card;
 import com.project.model.Dealer;
 import com.project.model.Deck;
 import com.project.model.Player;
@@ -28,6 +29,8 @@ public class Game
     private String status;
     private String outcome;
     private GameState currentState;
+
+    private double insuranceBet;
 
     public Game(double startingBalance)
     {
@@ -93,6 +96,23 @@ public class Game
         currentState.handleDoubleDown(this);
     }
 
+    public boolean isInsuranceAvailable()
+    {
+        Card upCard = dealer.getHand().getCard(0); // dealer's first card 
+        return upCard.getValue() == 11; // return true if dealer's first card is an ace (11)
+    }
+
+    public void takeInsurance()
+    {
+        insuranceBet = player.getBet().getAmount() / 2;  // called if player accepts insurance, which is half their og bet
+        player.addToBalance(-insuranceBet); // subtract insurance from balance 
+    }
+
+    public double getInsuranceBet()
+    {
+        return insuranceBet;
+    }
+
     public void resolveOutcome()
     {
         int playerTotal = player.getHand().calculateTotal();  
@@ -114,6 +134,10 @@ public class Game
         {
             this.outcome = "dealer blackjack";
             this.status = "resolved";
+            if (insuranceBet > 0)
+            {
+                player.addToBalance(insuranceBet * 2);
+            }
             setState(new ResolvedState());
         }
     
@@ -159,13 +183,14 @@ public class Game
     public static void main(String[] args) // for now, cli game
     {
         Scanner scanner = new Scanner(System.in);
+        double balance = 1000.00;
         
         while (true) 
         { 
-            Game game = new Game(1000.00); 
+            Game game = new Game(balance); 
             game.startGame();
-            System.out.println("Balance: $" + game.getPlayer().getBalance());  // balance 
-            System.out.print("Enter bet amount: ");
+            System.out.println("\nBalance: $" + balance);  // balance 
+            System.out.print("Enter bet amount: $");
             double betAmount = scanner.nextDouble();
             scanner.nextLine();
             game.getPlayer().placeBet(betAmount);
@@ -174,8 +199,26 @@ public class Game
             System.out.println("Dealer's first card: " + game.getDealer().getHand().getCard(0));
             System.out.println("Player's second card: " + game.getPlayer().getHand().getCard(1));
             System.out.println("Dealer's Hole Card is dealt.\n");
-            System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // deal player hand 
+            System.out.println("Player total: " + game.getPlayer().getHand().getSoftTotal()); // deal player hand 
             System.out.println("Dealer showing: " + game.getDealer().getHand().getCard(0).getValue()); // dealer hand (with hole card) 
+
+            if (game.getPlayer().getHand().isBlackjack()) // check if blackjack before going into gameplay logic
+            {
+                game.resolveOutcome();
+            }
+
+            if (game.isInsuranceAvailable()) // check if dealer's face up card is an ace
+            {
+                System.out.print("Take Insurance? (y/n) "); 
+                if (scanner.nextLine().equals("y"))
+                {
+                    game.takeInsurance();
+                }
+                else
+                {
+                    System.out.println("Insurance declined.");
+                }   
+            }
 
             while (game.getStatus().equals("active"))  
             {
@@ -190,26 +233,30 @@ public class Game
                     default -> System.out.println("Invalid action");
                 }
 
-                System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // print total after player either stands or busts 
+                System.out.println("Player total: " + game.getPlayer().getHand().getSoftTotal()); // print total after player either stands or busts 
                 System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
+            }
 
-            
-            } 
+            balance = game.getPlayer().getBalance();  // set new balance 
             
             System.out.println("Outcome: " + game.getOutcome());  // outcome 
-            System.out.println("Balance: " + game.getPlayer().getBalance()); // new balance
+            System.out.println("Balance: $" + game.getPlayer().getBalance()); // print new balance
 
-            System.out.print("Play again? (y/n) ");
-            if (scanner.nextLine().equals("y"))
+            if (game.getInsuranceBet() > 0 && game.getOutcome().equals("dealer blackjack")) // player took insurance and dealer got blackjack 
             {
-                continue;
+                System.out.println("Insurance paid out: $" + game.getInsuranceBet() * 2); // pay insurence back to 
             }
-            else
+            else if (game.getInsuranceBet() > 0)
+            {
+                System.out.println("Insurance lost: $" + game.getInsuranceBet());
+            }
+
+            System.out.print("\nPlay again? (y/n) ");
+            if (scanner.nextLine().equals("n"))
             {
                 break;
             }
         }
+        scanner.close();
     }
 }
-
-

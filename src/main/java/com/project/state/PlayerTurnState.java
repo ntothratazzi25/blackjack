@@ -26,6 +26,13 @@ public class PlayerTurnState implements GameState
             game.getDealer().flipHoleCard();
             game.resolveOutcome();
         }
+        else if (game.getPlayer().getHand().calculateTotal() == 21)
+        {
+            game.setState(new DealerTurnState());
+            game.getDealer().flipHoleCard();
+            game.getDealer().playTurn(game.getDeck());
+            game.resolveOutcome();
+        }
     }
 
     @Override
