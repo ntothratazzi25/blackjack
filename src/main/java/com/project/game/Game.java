@@ -233,8 +233,16 @@ public class Game
                     default -> System.out.println("Invalid action");
                 }
 
-                System.out.println("Player total: " + game.getPlayer().getHand().getSoftTotal()); // print total after player either stands or busts 
-                System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
+                if (game.getStatus().equals("active"))
+                {
+                    System.out.println("Player total: " + game.getPlayer().getHand().getSoftTotal()); // print total after player either stands or busts if ace involved 
+                    System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
+                }
+                else 
+                {
+                    System.out.println("Player total: " + game.getPlayer().getHand().calculateTotal()); // print total after player either stands or busts
+                    System.out.println("Dealer total: " + game.getDealer().getHand().calculateTotal()); // print dealer total
+                }
             }
 
             balance = game.getPlayer().getBalance();  // set new balance 
@@ -244,9 +252,9 @@ public class Game
 
             if (game.getInsuranceBet() > 0 && game.getOutcome().equals("dealer blackjack")) // player took insurance and dealer got blackjack 
             {
-                System.out.println("Insurance paid out: $" + game.getInsuranceBet() * 2); // pay insurence back to 
+                System.out.println("Insurance paid out: $" + game.getInsuranceBet() * 2); // pay insurance back to 
             }
-            else if (game.getInsuranceBet() > 0)
+            else if (game.getInsuranceBet() > 0) // player took insurance and dealer did not get blackjack
             {
                 System.out.println("Insurance lost: $" + game.getInsuranceBet());
             }
